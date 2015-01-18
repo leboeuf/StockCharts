@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChartControl", "StockChartControl\StockChartControl.csproj", "{61E44E6B-C3E5-4963-8932-0E725A8E7B13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockCharts.TestApplication", "StockCharts.TestApplication\StockCharts.TestApplication.csproj", "{F781F2D4-6F22-46F3-9ECB-2C7948D786F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{61E44E6B-C3E5-4963-8932-0E725A8E7B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61E44E6B-C3E5-4963-8932-0E725A8E7B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61E44E6B-C3E5-4963-8932-0E725A8E7B13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F781F2D4-6F22-46F3-9ECB-2C7948D786F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F781F2D4-6F22-46F3-9ECB-2C7948D786F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F781F2D4-6F22-46F3-9ECB-2C7948D786F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F781F2D4-6F22-46F3-9ECB-2C7948D786F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
