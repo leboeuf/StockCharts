@@ -3,6 +3,8 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using StockChartControl.Charts;
+using StockChartControl.Enums;
 
 namespace StockChartControl.UIElements
 {
@@ -13,6 +15,16 @@ namespace StockChartControl.UIElements
     public class ChartPanel : Canvas
     {
         private DrawingGroup graphContents;
+        private SeriesType seriesType;
+        private IndicatorType? indicatorType;
+        private IChartDrawing chartDrawing;
+
+        public ChartPanel(SeriesType seriesType, IndicatorType? indicatorType = null)
+        {
+            this.seriesType = seriesType;
+            this.indicatorType = indicatorType;
+            this.chartDrawing = ChartDrawingHelper.GetChartDrawing(seriesType, indicatorType);
+        }
 
         protected override void OnRender(DrawingContext drawingContext)
         {
@@ -24,6 +36,8 @@ namespace StockChartControl.UIElements
                 var bounds = new Rect(0, 0, 100, 100);
                 var brush = new SolidColorBrush(Colors.BlueViolet);
                 context.DrawRectangle(brush, null, bounds);
+
+                chartDrawing.Draw(context);
             }
 
             drawingContext.DrawDrawing(graphContents);

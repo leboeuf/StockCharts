@@ -47,10 +47,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Charts\ChartDrawingHelper.cs" />
+    <Compile Include="Charts\IChartDrawing.cs" />
+    <Compile Include="Charts\LineChart.cs" />
+    <Compile Include="Enums\IndicatorType.cs" />
     <Compile Include="Enums\ScalingType.cs" />
     <Compile Include="Enums\SeriesType.cs" />
     <Compile Include="Model\BarData.cs" />
-    <Compile Include="UIElements\ChartPanel.cs" />
+    <Compile Include="Charts\ChartPanel.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

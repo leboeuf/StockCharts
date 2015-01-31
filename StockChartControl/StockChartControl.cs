@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using StockChartControl.Enums;
 using StockChartControl.UIElements;
 
 namespace StockChartControl
@@ -25,7 +26,7 @@ namespace StockChartControl
 
         public void AddChartPanel()
         {
-            this.AddChild(new ChartPanel());
+            this.AddChild(new ChartPanel(SeriesType.LineChart));
         }
 
         /// <summary>
