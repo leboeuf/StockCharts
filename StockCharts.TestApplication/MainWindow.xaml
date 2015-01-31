@@ -4,6 +4,6 @@
         xmlns:stockCharts="clr-namespace:StockChartControl;assembly=StockChartControl"
         Title="StockChartsControl Test Application" Height="350" Width="525">
     <Grid>
-        <stockCharts:StockChartControl/>
+        <stockCharts:StockChartControl Name="stockChart" />
     </Grid>
 </Window>

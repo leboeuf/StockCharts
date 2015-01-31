@@ -10,19 +10,22 @@ using StockChartControl.UIElements;
 
 namespace StockChartControl
 {
-    public class StockChartControl : Control, INotifyPropertyChanged
+    public class StockChartControl : ContentControl, INotifyPropertyChanged
     {
         static StockChartControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StockChartControl), new FrameworkPropertyMetadata(typeof(StockChartControl)));
         }
 
-        private PanelsContainer PanelsContainer;
-
         public event PropertyChangedEventHandler PropertyChanged
         {
             add { }
             remove { }
+        }
+
+        public void AddChartPanel()
+        {
+            this.AddChild(new ChartPanel());
         }
 
         /// <summary>
@@ -40,20 +43,23 @@ namespace StockChartControl
             
             BitmapEncoder bitmapEncoder;
             extension = extension.ToLower();
-            if (extension == "png")
+            if (extension == ".png")
                 bitmapEncoder = new PngBitmapEncoder();
-            else if (extension == "jpg" || extension == "jpeg")
+            else if (extension == ".jpg" || extension == ".jpeg")
                 bitmapEncoder = new JpegBitmapEncoder();
-            else if (extension == "gif")
+            else if (extension == ".gif")
                 bitmapEncoder = new GifBitmapEncoder();
-            else if (extension == "bmp")
+            else if (extension == ".bmp")
                 bitmapEncoder = new BmpBitmapEncoder();
             else throw new ArgumentException("Cannot find a BitmapEncoder for this file type.");
             
             var renderTargetBitmap = new RenderTargetBitmap((int)this.ActualWidth, (int)this.ActualHeight, 96, 96, PixelFormats.Pbgra32);
 
-            foreach (ChartPanel chartPanel in this.PanelsContainer.GetPanels())
-                renderTargetBitmap.Render(chartPanel);
+            foreach (var child in LogicalTreeHelper.GetChildren(this))
+            {
+                if (child is ChartPanel)
+                    renderTargetBitmap.Render((ChartPanel)child);
+            }
 
             bitmapEncoder.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
             using (Stream stream = File.Create(filename))

@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace StockChartControl.UIElements
 {
@@ -7,13 +10,24 @@ namespace StockChartControl.UIElements
     /// Visual element that can contain chart data, technical indicators and technical analysis drawings.
     /// A chart is composed of one or more ChartPanels.
     /// </summary>
-    class ChartPanel : Control, INotifyPropertyChanged
+    public class ChartPanel : Canvas
     {
+        private DrawingGroup graphContents;
 
-        public event PropertyChangedEventHandler PropertyChanged
+        protected override void OnRender(DrawingContext drawingContext)
         {
-            add { }
-            remove { }
+            if (graphContents == null)
+				graphContents = new DrawingGroup();
+
+            using (DrawingContext context = graphContents.Open())
+            {
+                var bounds = new Rect(0, 0, 100, 100);
+                var brush = new SolidColorBrush(Colors.BlueViolet);
+                context.DrawRectangle(brush, null, bounds);
+            }
+
+            drawingContext.DrawDrawing(graphContents);
         }
+
     }
 }

@@ -51,7 +51,6 @@
     <Compile Include="Enums\SeriesType.cs" />
     <Compile Include="Model\BarData.cs" />
     <Compile Include="UIElements\ChartPanel.cs" />
-    <Compile Include="UIElements\PanelsContainer.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
