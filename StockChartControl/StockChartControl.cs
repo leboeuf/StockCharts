@@ -17,7 +17,7 @@ namespace StockChartControl
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StockChartControl), new FrameworkPropertyMetadata(typeof(StockChartControl)));
         }
 
-        private IEnumerable<ChartPanel> ChartPanels;
+        private PanelsContainer PanelsContainer;
 
         public event PropertyChangedEventHandler PropertyChanged
         {
@@ -52,8 +52,8 @@ namespace StockChartControl
             
             var renderTargetBitmap = new RenderTargetBitmap((int)this.ActualWidth, (int)this.ActualHeight, 96, 96, PixelFormats.Pbgra32);
 
-            foreach (ChartPanel chartPanel in this.ChartPanels)
-                renderTargetBitmap.Render((Visual)chartPanel);
+            foreach (ChartPanel chartPanel in this.PanelsContainer.GetPanels())
+                renderTargetBitmap.Render(chartPanel);
 
             bitmapEncoder.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
             using (Stream stream = File.Create(filename))
