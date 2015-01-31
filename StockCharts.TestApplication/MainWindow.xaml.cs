@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using StockChartControl.Enums;
+using StockChartControl.Model;
 
 namespace StockCharts.TestApplication
 {
@@ -29,7 +22,32 @@ namespace StockCharts.TestApplication
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            stockChart.AddChartPanel();
+            var rts = LoadStockRates("TestDataRTS.txt");
+            stockChart.AddChartPanel(new ChartOptions
+            {
+                Symbol = "RTSI",
+                ChartData = rts,
+                SeriesType = SeriesType.LineChart
+            });
+        }
+
+        private static List<BarData> LoadStockRates(string fileName)
+        {
+            string[] strings = File.ReadAllLines(fileName);
+
+            var res = new List<BarData>(strings.Length - 1);
+            for (int i = 1; i < strings.Length; i++)
+            {
+                string line = strings[i];
+                string[] subLines = line.Split('\t');
+
+                DateTime date = DateTime.Parse(subLines[1]);
+                double rate = Double.Parse(subLines[5], CultureInfo.InvariantCulture);
+
+                res.Add(new BarData { TradeDateTime = date, ClosePrice = rate });
+            }
+
+            return res;
         }
     }
 }

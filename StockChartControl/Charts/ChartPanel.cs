@@ -1,10 +1,9 @@
-﻿using System.ComponentModel;
-using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using StockChartControl.Charts;
 using StockChartControl.Enums;
+using StockChartControl.Model;
 
 namespace StockChartControl.UIElements
 {
@@ -19,10 +18,10 @@ namespace StockChartControl.UIElements
         private IndicatorType? indicatorType;
         private IChartDrawing chartDrawing;
 
-        public ChartPanel(SeriesType seriesType, IndicatorType? indicatorType = null)
+        public ChartPanel(ChartOptions options)
         {
-            this.seriesType = seriesType;
-            this.indicatorType = indicatorType;
+            this.seriesType = options.SeriesType;
+            this.indicatorType = options.IndicatorType;
             this.chartDrawing = ChartDrawingHelper.GetChartDrawing(seriesType, indicatorType);
         }
 
