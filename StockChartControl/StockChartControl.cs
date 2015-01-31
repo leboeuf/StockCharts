@@ -1,54 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using StockChartControl.UIElements;
 
 namespace StockChartControl
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:StockChartControl"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:StockChartControl;assembly=StockChartControl"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:CustomControl1/>
-    ///
-    /// </summary>
-    public class StockChartControl : Control
+    public class StockChartControl : Control, INotifyPropertyChanged
     {
         static StockChartControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StockChartControl), new FrameworkPropertyMetadata(typeof(StockChartControl)));
+        }
+
+        private IEnumerable<ChartPanel> ChartPanels;
+
+        public event PropertyChangedEventHandler PropertyChanged
+        {
+            add { }
+            remove { }
+        }
+
+        /// <summary>
+        /// Saves the full chart to a file, including technical analysis.
+        /// </summary>
+        /// <param name="filename">The file to write to.</param>
+        public void SaveAsImage(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
+                throw new ArgumentNullException();
+
+            var extension = Path.GetExtension(filename);
+            if (string.IsNullOrEmpty(extension))
+                throw new ArgumentNullException();
+            
+            BitmapEncoder bitmapEncoder;
+            extension = extension.ToLower();
+            if (extension == "png")
+                bitmapEncoder = new PngBitmapEncoder();
+            else if (extension == "jpg" || extension == "jpeg")
+                bitmapEncoder = new JpegBitmapEncoder();
+            else if (extension == "gif")
+                bitmapEncoder = new GifBitmapEncoder();
+            else if (extension == "bmp")
+                bitmapEncoder = new BmpBitmapEncoder();
+            else throw new ArgumentException("Cannot find a BitmapEncoder for this file type.");
+            
+            var renderTargetBitmap = new RenderTargetBitmap((int)this.ActualWidth, (int)this.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+
+            foreach (ChartPanel chartPanel in this.ChartPanels)
+                renderTargetBitmap.Render((Visual)chartPanel);
+
+            bitmapEncoder.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
+            using (Stream stream = File.Create(filename))
+            {
+                bitmapEncoder.Save(stream);
+            }
         }
     }
 }
