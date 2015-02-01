@@ -55,6 +55,10 @@
     <Compile Include="Enums\SeriesType.cs" />
     <Compile Include="Model\BarData.cs" />
     <Compile Include="Charts\ChartPanel.cs" />
+    <Compile Include="Transforms\CoordinateTransform.cs" />
+    <Compile Include="Transforms\CoordinateTransformExtensions.cs" />
+    <Compile Include="Transforms\IDataTransform.cs" />
+    <Compile Include="Transforms\IdentityTransform.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
