@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -35,18 +36,16 @@ namespace StockChartControl.UIElements
             this.ChartDrawing = ChartDrawingHelper.GetChartDrawing(SeriesType, IndicatorType);
             this.ChartData = options.ChartData;
             this.ChartStyle = options.ChartStyle;
-
+            
             if (this.ChartStyle == null)
                 this.ChartStyle = new DefaultChartStyle();
 
             SizeChanged += ChartPanel_SizeChanged;
-
         }
 
         private void ChartPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Viewport.Output = new Rect(0, 0, ActualWidth, ActualHeight);
-            Viewport.Visible = Viewport.Output;
+            Viewport.OnViewportResized(ActualWidth, ActualHeight);
             Update();
         }
 
@@ -80,7 +79,13 @@ namespace StockChartControl.UIElements
         {
             if (ChartData == null) return;
 
-            if (FilteredPoints == null) Update(); // ActualWidth and ActualHeight are NaN at initialization, need to do this here
+            if (FilteredPoints == null)
+            {
+                // ActualWidth and ActualHeight are NaN at initialization, need to do this here
+                Viewport.Visible = new Rect(new Size(ActualWidth, ActualHeight));
+                Viewport.OnViewportResized(ActualWidth, ActualHeight);
+                Update();
+            }
 
             if (GraphContents == null)
                 GraphContents = new DrawingGroup();
