@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using StockChartControl.Enums;
 using StockChartControl.Model;
 using StockChartControl.Navigation;
@@ -54,6 +55,11 @@ namespace StockCharts.TestApplication
         private void StockChart_OnMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ChartCommands.ScrollLeft.Execute("", stockChart);
+        }
+
+        private void StockChart_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            stockChart.Focus(); // To allow keyboard commands to get to the control
         }
     }
 }

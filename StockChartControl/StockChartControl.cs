@@ -13,6 +13,8 @@ namespace StockChartControl
 {
     public class StockChartControl : ContentControl
     {
+        private KeyboardNavigation keyboardNavigation;
+
         static StockChartControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StockChartControl), new FrameworkPropertyMetadata(typeof(StockChartControl)));
@@ -21,13 +23,6 @@ namespace StockChartControl
         public StockChartControl()
         {
             keyboardNavigation = new KeyboardNavigation(this);
-        }
-
-        private KeyboardNavigation keyboardNavigation;
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KeyboardNavigation KeyboardNavigation
-        {
-            get { return keyboardNavigation; }
         }
 
         public void AddChartPanel(ChartOptions options)
