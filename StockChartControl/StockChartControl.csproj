@@ -50,12 +50,15 @@
     <Compile Include="Charts\ChartDrawingHelper.cs" />
     <Compile Include="Charts\IChartDrawing.cs" />
     <Compile Include="Charts\LineChart.cs" />
+    <Compile Include="Charts\Viewport.cs" />
     <Compile Include="Enums\IndicatorType.cs" />
     <Compile Include="Enums\ScalingType.cs" />
     <Compile Include="Enums\SeriesType.cs" />
     <Compile Include="Model\BarData.cs" />
     <Compile Include="Charts\ChartPanel.cs" />
     <Compile Include="Model\ChartStyle.cs" />
+    <Compile Include="Navigation\ChartCommands.cs" />
+    <Compile Include="Navigation\KeyboardNavigation.cs" />
     <Compile Include="Themes\ChartStyles\DefaultChartStyle.cs" />
     <Compile Include="Transforms\CoordinateTransform.cs" />
     <Compile Include="Transforms\CoordinateTransformExtensions.cs" />

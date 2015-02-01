@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using StockChartControl.Enums;
 using StockChartControl.Model;
+using StockChartControl.Navigation;
 
 namespace StockCharts.TestApplication
 {
@@ -48,6 +49,11 @@ namespace StockCharts.TestApplication
             }
 
             return res;
+        }
+
+        private void StockChart_OnMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ChartCommands.ScrollLeft.Execute("", stockChart);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -17,7 +18,7 @@ namespace StockChartControl.UIElements
     public class ChartPanel : Canvas
     {
         private DrawingGroup GraphContents;
-        private Rect CanvasBounds;
+        private Viewport Viewport = new Viewport();
         private ChartStyle ChartStyle;
         private SeriesType SeriesType;
         private IndicatorType? IndicatorType;
@@ -44,6 +45,8 @@ namespace StockChartControl.UIElements
 
         private void ChartPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Viewport.Output = new Rect(0, 0, ActualWidth, ActualHeight);
+            Viewport.Visible = Viewport.Output;
             Update();
         }
 
@@ -54,8 +57,7 @@ namespace StockChartControl.UIElements
             IEnumerable<Point> points = GetPoints();
 
             // Transform chart data to screen points
-            CanvasBounds = new Rect(new Size(ActualWidth, ActualHeight));
-            Transform = new CoordinateTransform(CanvasBounds, CanvasBounds);
+            Transform = new CoordinateTransform(Viewport.Visible, Viewport.Output);
             List<Point> transformedPoints = Transform.DataToScreen(points);
 
             // Filter unnecessary points
@@ -86,21 +88,39 @@ namespace StockChartControl.UIElements
             using (DrawingContext context = GraphContents.Open())
             {
                 // Draw Background
-                context.DrawRectangle(ChartStyle.BackgroundColor, null, CanvasBounds);
+                context.DrawRectangle(ChartStyle.BackgroundColor, null, Viewport.Output);
 
                 // Draw chart
                 ChartDrawing.Draw(context, FilteredPoints, ChartStyle);
 
                 #region Debug text
-                //context.DrawText(new FormattedText("Debugtext", 
-                //    CultureInfo.InvariantCulture, 
-                //    FlowDirection.LeftToRight, 
-                //    new Typeface("Arial"), 12, Brushes.Black), 
-                //    new Point(10, 10));
+                context.DrawText(new FormattedText("Viewport.Visible=" + Viewport.Visible + "\n" + "Viewport.Output=" + Viewport.Output,
+                    CultureInfo.InvariantCulture,
+                    FlowDirection.LeftToRight,
+                    new Typeface("Arial"), 12, Brushes.Red),
+                    new Point(10, 10));
                 #endregion
             }
 
             drawingContext.DrawDrawing(GraphContents);
         }
+
+        #region Commands implementation
+
+        public void ScrollVisible(double xShiftCoeff, double yShiftCoeff)
+        {
+            Rect visible = Viewport.Visible;
+            Rect oldVisible = visible;
+            double width = visible.Width;
+            double height = visible.Height;
+
+            visible.Offset(xShiftCoeff * width, yShiftCoeff * height);
+
+            Viewport.Visible = visible;
+            Update();
+            InvalidateVisual();
+        }
+
+        #endregion
     }
 }

@@ -6,21 +6,28 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using StockChartControl.Model;
+using StockChartControl.Navigation;
 using StockChartControl.UIElements;
 
 namespace StockChartControl
 {
-    public class StockChartControl : ContentControl, INotifyPropertyChanged
+    public class StockChartControl : ContentControl
     {
         static StockChartControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StockChartControl), new FrameworkPropertyMetadata(typeof(StockChartControl)));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged
+        public StockChartControl()
         {
-            add { }
-            remove { }
+            keyboardNavigation = new KeyboardNavigation(this);
+        }
+
+        private KeyboardNavigation keyboardNavigation;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public KeyboardNavigation KeyboardNavigation
+        {
+            get { return keyboardNavigation; }
         }
 
         public void AddChartPanel(ChartOptions options)
