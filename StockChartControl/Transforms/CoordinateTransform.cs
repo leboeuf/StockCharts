@@ -36,6 +36,13 @@ namespace StockChartControl.Transforms
             cyToData = visibleRect.Height + visibleRect.Top + screenRect.Top * ryToData;
         }
 
+        internal CoordinateTransform WithRects(Rect visibleRect, Rect screenRect)
+        {
+            var copy = new CoordinateTransform(visibleRect, screenRect);
+            copy.dataTransform = dataTransform;
+            return copy;
+        }
+
         /// <summary>
         /// Transforms point from data coordinates to screen.
         /// </summary>
@@ -86,6 +93,11 @@ namespace StockChartControl.Transforms
             Point viewportPoint = new Point(screenPoint.X * rxToData - cxToData, cyToData - screenPoint.Y * ryToData);
 
             return viewportPoint;
+        }
+
+        internal static CoordinateTransform CreateDefault()
+        {
+            return new CoordinateTransform(new Rect(0, 0, 1, 1), new Rect(0, 0, 1, 1));
         }
     }
 }

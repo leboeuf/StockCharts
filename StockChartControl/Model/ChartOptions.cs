@@ -13,5 +13,6 @@ namespace StockChartControl.Model
         public List<BarData> ChartData { get; set; }
         public SeriesType SeriesType { get; set; }
         public IndicatorType? IndicatorType { get; set; }
+        public ChartStyle ChartStyle { get; set; }
     }
 }

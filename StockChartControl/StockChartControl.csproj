@@ -55,6 +55,8 @@
     <Compile Include="Enums\SeriesType.cs" />
     <Compile Include="Model\BarData.cs" />
     <Compile Include="Charts\ChartPanel.cs" />
+    <Compile Include="Model\ChartStyle.cs" />
+    <Compile Include="Themes\ChartStyles\DefaultChartStyle.cs" />
     <Compile Include="Transforms\CoordinateTransform.cs" />
     <Compile Include="Transforms\CoordinateTransformExtensions.cs" />
     <Compile Include="Transforms\IDataTransform.cs" />
