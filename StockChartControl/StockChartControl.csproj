@@ -62,8 +62,10 @@
     <Compile Include="Themes\ChartStyles\DefaultChartStyle.cs" />
     <Compile Include="Transforms\CoordinateTransform.cs" />
     <Compile Include="Transforms\CoordinateTransformExtensions.cs" />
+    <Compile Include="Transforms\CoordinateUtilities.cs" />
     <Compile Include="Transforms\IDataTransform.cs" />
     <Compile Include="Transforms\IdentityTransform.cs" />
+    <Compile Include="Transforms\RectExtension.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

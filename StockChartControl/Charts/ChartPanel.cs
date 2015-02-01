@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using StockChartControl.Charts;
 using StockChartControl.Enums;
@@ -112,6 +113,12 @@ namespace StockChartControl.UIElements
 
         #region Commands implementation
 
+        private void CommandExecuted()
+        {
+            Update();
+            InvalidateVisual();
+        }
+
         public void ScrollVisible(double xShiftCoeff, double yShiftCoeff)
         {
             Rect visible = Viewport.Visible;
@@ -122,8 +129,35 @@ namespace StockChartControl.UIElements
             visible.Offset(xShiftCoeff * width, yShiftCoeff * height);
 
             Viewport.Visible = visible;
-            Update();
-            InvalidateVisual();
+            CommandExecuted();
+        }
+
+        public void Zoom(double zoomeCoeff)
+        {
+            Viewport.Zoom(zoomeCoeff);
+            CommandExecuted();
+        }
+
+        public void ZoomToPoint(double coeff)
+        {
+            Point pt = Mouse.GetPosition(this);
+            Point dataPoint = Transform.ScreenToData(pt);
+            Rect visible = Viewport.Visible;
+
+            Viewport.Visible = visible.Zoom(dataPoint, coeff);
+            CommandExecuted();
+        }
+
+        public void ZoomWithParamExecute(double zoomParam)
+        {
+            Viewport.Zoom(zoomParam);
+            CommandExecuted();
+        }
+
+        public void FitToView()
+        {
+            //Viewport.FitToView();// todo
+            CommandExecuted();
         }
 
         #endregion

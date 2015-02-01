@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using StockChartControl.Transforms;
 
 namespace StockChartControl.Charts
 {
@@ -30,6 +31,15 @@ namespace StockChartControl.Charts
         public void OnViewportResized(double width, double height)
         {
             Output = new Rect(new Size(width, height));
+        }
+
+        public void Zoom(double factor)
+        {
+            Rect visible = Visible;
+            Rect oldVisible = visible;
+            Point center = visible.GetCenter();
+            Vector halfSize = new Vector(visible.Width * factor / 2, visible.Height * factor / 2);
+            Visible = new Rect(center - halfSize, center + halfSize);
         }
     }
 }

@@ -13,7 +13,14 @@ namespace StockChartControl.Navigation
             return new RoutedUICommand(name, name, typeof(ChartCommands), gestures);
         }
 
+        private static RoutedUICommand CreateCommand(string name, MouseAction mouseAction)
+        {
+            return new RoutedUICommand(name, name, typeof(ChartCommands), new InputGestureCollection { new MouseGesture(mouseAction) });
+        }
+
         #region Commands
+
+        #region Scroll
         private static readonly RoutedUICommand scrollLeft = CreateCommand("ScrollLeft", Key.Right);
         public static RoutedUICommand ScrollLeft
         {
@@ -37,6 +44,46 @@ namespace StockChartControl.Navigation
         {
             get { return ChartCommands.scrollDown; }
         }
+        #endregion
+
+        #region Zoom
+        private static readonly RoutedUICommand zoomOutToMouse = CreateCommand("ZoomOutToMouse", MouseAction.RightDoubleClick);
+        public static RoutedUICommand ZoomOutToMouse
+        {
+            get { return ChartCommands.zoomOutToMouse; }
+        }
+
+        private static readonly RoutedUICommand zoomInToMouse = CreateCommand("ZoomInToMouse", MouseAction.LeftDoubleClick);
+        public static RoutedUICommand ZoomInToMouse
+        {
+            get { return ChartCommands.zoomInToMouse; }
+        }
+
+        private static readonly RoutedUICommand zoomWithParam = CreateCommand("ZoomWithParam");
+        public static RoutedUICommand ZoomWithParameter
+        {
+            get { return zoomWithParam; }
+        }
+
+        private static readonly RoutedUICommand zoomIn = CreateCommand("ZoomIn", Key.Add);
+        public static RoutedUICommand ZoomIn
+        {
+            get { return zoomIn; }
+        }
+
+        private static readonly RoutedUICommand zoomOut = CreateCommand("ZoomOut", Key.Subtract);
+        public static RoutedUICommand ZoomOut
+        {
+            get { return zoomOut; }
+        }
+
+        private static readonly RoutedUICommand fitToView = CreateCommand("FitToView", Key.Home);
+        public static RoutedUICommand FitToView
+        {
+            get { return ChartCommands.fitToView; }
+        }
+        #endregion
+
         #endregion
     }
 }
