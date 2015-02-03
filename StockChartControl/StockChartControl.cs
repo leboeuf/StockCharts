@@ -1,13 +1,12 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using StockChartControl.Charts;
 using StockChartControl.Model;
 using StockChartControl.Navigation;
-using StockChartControl.UIElements;
 
 namespace StockChartControl
 {
@@ -17,6 +16,7 @@ namespace StockChartControl
 
         static StockChartControl()
         {
+            // Used by visual theme
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StockChartControl), new FrameworkPropertyMetadata(typeof(StockChartControl)));
         }
 

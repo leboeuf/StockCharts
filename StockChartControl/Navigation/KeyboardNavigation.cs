@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using StockChartControl.UIElements;
+using StockChartControl.Charts;
 
 namespace StockChartControl.Navigation
 {

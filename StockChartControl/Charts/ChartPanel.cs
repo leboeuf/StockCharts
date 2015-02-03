@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using StockChartControl.Charts;
 using StockChartControl.Enums;
 using StockChartControl.Model;
 using StockChartControl.Themes.ChartStyles;
 using StockChartControl.Transforms;
 
-namespace StockChartControl.UIElements
+namespace StockChartControl.Charts
 {
     /// <summary>
     /// Visual element that can contain chart data, technical indicators and technical analysis drawings.
@@ -61,7 +59,7 @@ namespace StockChartControl.UIElements
             List<Point> transformedPoints = Transform.DataToScreen(points);
 
             // Filter unnecessary points
-            //FilteredPoints = new FilteredPointList(FilterPoints(transformedPoints), output.Left, output.Right);
+            //FilteredPoints = new FilteredPointList(FilterPoints(transformedPoints), Viewport.Output.Left, Viewport.Output.Right);
             FilteredPoints = transformedPoints;
         }
 
@@ -80,32 +78,31 @@ namespace StockChartControl.UIElements
         {
             if (ChartData == null) return;
 
-            if (FilteredPoints == null)
+            if (GraphContents == null) 
             {
                 // ActualWidth and ActualHeight are NaN at initialization, need to do this here
                 Viewport.Visible = new Rect(new Size(ActualWidth, ActualHeight));
                 Viewport.OnViewportResized(ActualWidth, ActualHeight);
-                Update();
+                GraphContents = new DrawingGroup();
             }
 
-            if (GraphContents == null)
-                GraphContents = new DrawingGroup();
+            if (FilteredPoints == null)
+                Update();
 
             using (DrawingContext context = GraphContents.Open())
             {
                 // Draw Background
                 context.DrawRectangle(ChartStyle.BackgroundColor, null, Viewport.Output);
 
-                // Draw chart
+                // Draw Chart
                 ChartDrawing.Draw(context, FilteredPoints, ChartStyle);
 
-                #region Debug text
+                //Draw Debug text
                 context.DrawText(new FormattedText("Viewport.Visible=" + Viewport.Visible + "\n" + "Viewport.Output=" + Viewport.Output,
                     CultureInfo.InvariantCulture,
                     FlowDirection.LeftToRight,
                     new Typeface("Arial"), 12, Brushes.Red),
                     new Point(10, 10));
-                #endregion
             }
 
             drawingContext.DrawDrawing(GraphContents);
@@ -113,6 +110,9 @@ namespace StockChartControl.UIElements
 
         #region Commands implementation
 
+        /// <summary>
+        /// Must run after a command is executed to refresh the chart.
+        /// </summary>
         private void CommandExecuted()
         {
             Update();
